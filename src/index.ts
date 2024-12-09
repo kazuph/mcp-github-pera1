@@ -36,7 +36,7 @@ const server = new Server(
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
-      name: 'github_get_1file_code_by_pera1',
+      name: 'github_pera1_get_1file_code',
       description:
         'Retrieves code from a GitHub repository URL and combines it into a single file. The URL must start with "https://".',
       inputSchema: zodToJsonSchema(GithubUrlSchema) as ToolInput,
