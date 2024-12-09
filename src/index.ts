@@ -63,7 +63,7 @@ server.setRequestHandler(
 
           try {
             const response = await fetch(
-              `https://pera1.kazu-homma.workers.dev/${parsed.data.url}`
+              `https://pera1.kazuph.workers.dev/${parsed.data.url}`
             );
 
             if (!response.ok) {
