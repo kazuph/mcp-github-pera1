@@ -36,7 +36,7 @@ const server = new Server(
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
-      name: 'github_pera1_get_1file_code',
+      name: 'github_get_code',
       description:
         'Retrieves code from a GitHub repository URL and combines it into a single file. The URL must start with "https://".',
       inputSchema: zodToJsonSchema(GithubUrlSchema) as ToolInput,
@@ -53,11 +53,11 @@ server.setRequestHandler(
       const { name, arguments: args } = request.params;
 
       switch (name) {
-        case 'github_pera1_get_1file_code': {
+        case 'github_get_code': {
           const parsed = GithubUrlSchema.safeParse(args);
           if (!parsed.success) {
             throw new Error(
-              `Invalid arguments for github_get_1file_code_by_pera1: ${parsed.error}`
+              `Invalid arguments for github_get_code: ${parsed.error}`
             );
           }
 
