@@ -53,7 +53,7 @@ server.setRequestHandler(
       const { name, arguments: args } = request.params;
 
       switch (name) {
-        case 'github_get_1file_code_by_pera1': {
+        case 'github_pera1_get_1file_code': {
           const parsed = GithubUrlSchema.safeParse(args);
           if (!parsed.success) {
             throw new Error(
