@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "removeComments": false,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "declaration": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "pretty": true,
+    "target": "ES2022",
+    "outDir": "dist",
+    "lib": [
+      "dom",
+      "ES2022"
+    ],
+    "types": [
+      "node"
+    ],
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  },
+  "formatCodeOptions": {
+    "indentSize": 2,
+    "tabSize": 2
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
