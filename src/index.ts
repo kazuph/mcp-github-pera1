@@ -50,6 +50,15 @@ Query Parameters:
   Example: ?ext=ts,tsx,js
 - mode: Display mode
   Example: ?mode=tree (Shows directory structure only)
+
+Examples:
+For GitHub tree URLs like:
+  https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
+Use:
+  url: https://github.com/modelcontextprotocol/servers
+  dir: src/fetch
+
+This will correctly parse the repository structure and fetch the files.
 `,
       inputSchema: zodToJsonSchema(GithubUrlSchema) as ToolInput,
     },
