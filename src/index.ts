@@ -14,6 +14,9 @@ import { zodToJsonSchema } from 'zod-to-json-schema';
 // Schema definitions
 const GithubUrlSchema = z.object({
   url: z.string().url(),
+  dir: z.string().optional(),
+  ext: z.string().optional(),
+  mode: z.enum(['tree']).optional(),
 });
 
 const ToolInputSchema = ToolSchema.shape.inputSchema;
@@ -37,8 +40,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
   const tools = [
     {
       name: 'github_get_code',
-      description:
-        'Retrieves code from a GitHub repository URL and combines it into a single file. The URL must start with "https://".',
+      description: `
+Retrieves code from a GitHub repository URL and combines it into a single file. The URL must start with "https://".
+
+Query Parameters:
+- dir: Filter files by directory paths (comma-separated)
+  Example: ?dir=src/components,tests/unit
+- ext: Filter files by extensions (comma-separated)
+  Example: ?ext=ts,tsx,js
+- mode: Display mode
+  Example: ?mode=tree (Shows directory structure only)
+`,
       inputSchema: zodToJsonSchema(GithubUrlSchema) as ToolInput,
     },
   ];
@@ -62,9 +74,17 @@ server.setRequestHandler(
           }
 
           try {
-            const response = await fetch(
-              `https://pera1.kazuph.workers.dev/${parsed.data.url}`
-            );
+            const buildUrl = (params: z.infer<typeof GithubUrlSchema>) => {
+              const url = new URL(
+                `https://pera1.kazuph.workers.dev/${params.url}`
+              );
+              if (params.dir) url.searchParams.set('dir', params.dir);
+              if (params.ext) url.searchParams.set('ext', params.ext);
+              if (params.mode) url.searchParams.set('mode', params.mode);
+              return url.toString();
+            };
+
+            const response = await fetch(buildUrl(parsed.data));
 
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
