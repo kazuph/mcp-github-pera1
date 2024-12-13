@@ -17,6 +17,7 @@ const GithubUrlSchema = z.object({
   dir: z.string().optional(),
   ext: z.string().optional(),
   mode: z.enum(['tree']).optional(),
+  branch: z.string().optional(),
 });
 
 const ToolInputSchema = ToolSchema.shape.inputSchema;
@@ -50,15 +51,20 @@ Query Parameters:
   Example: ?ext=ts,tsx,js
 - mode: Display mode
   Example: ?mode=tree (Shows directory structure only)
+- branch: Specify the branch to fetch from (optional)
+  Example: ?branch=feature/new-feature
 
 Examples:
-For GitHub tree URLs like:
-  https://github.com/modelcontextprotocol/servers/tree/main/src/fetch
-Use:
+1. For GitHub tree URLs with branch:
+  https://github.com/kazuph/pera1/tree/feature/great-branch
+  This URL will be automatically parsed to extract the branch information.
+
+2. For specific directory in a branch:
   url: https://github.com/modelcontextprotocol/servers
   dir: src/fetch
+  branch: develop
 
-This will correctly parse the repository structure and fetch the files.
+The tool will correctly parse the repository structure and fetch the files from the specified branch.
 `,
       inputSchema: zodToJsonSchema(GithubUrlSchema) as ToolInput,
     },
@@ -90,6 +96,7 @@ server.setRequestHandler(
               if (params.dir) url.searchParams.set('dir', params.dir);
               if (params.ext) url.searchParams.set('ext', params.ext);
               if (params.mode) url.searchParams.set('mode', params.mode);
+              if (params.branch) url.searchParams.set('branch', params.branch);
               return url.toString();
             };
 
