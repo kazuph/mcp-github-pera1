@@ -2,6 +2,8 @@
 
 A Model Context Protocol server that connects GitHub code to Claude.ai. This server utilizes the Pera1 service to extract code from GitHub repositories and provide better context to Claude.
 
+<a href="https://glama.ai/mcp/servers/m2sd6ew3wf"><img width="380" height="200" src="https://glama.ai/mcp/servers/m2sd6ew3wf/badge" alt="@kazuph/mcp-github-pera1 MCP server" /></a>
+
 ### Setup
 
 Add the following to your MCP config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
