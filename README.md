@@ -1,11 +1,21 @@
 # GitHub MCP Server for Pera1
 
+[![smithery badge](https://smithery.ai/badge/@kazuph/mcp-github-pera1)](https://smithery.ai/server/@kazuph/mcp-github-pera1)
 A Model Context Protocol server that connects GitHub code to Claude.ai. This server utilizes the Pera1 service to extract code from GitHub repositories and provide better context to Claude.
 
 <a href="https://glama.ai/mcp/servers/m2sd6ew3wf"><img width="380" height="200" src="https://glama.ai/mcp/servers/m2sd6ew3wf/badge" alt="@kazuph/mcp-github-pera1 MCP server" /></a>
 
 ### Setup
 
+### Installing via Smithery
+
+To install GitHub MCP Server for Pera1 for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@kazuph/mcp-github-pera1):
+
+```bash
+npx -y @smithery/cli install @kazuph/mcp-github-pera1 --client claude
+```
+
+### Manual Installation
 Add the following to your MCP config file (`~/Library/Application Support/Claude/claude_desktop_config.json`):
 ```json
 {
