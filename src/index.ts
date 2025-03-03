@@ -18,6 +18,7 @@ const GithubUrlSchema = z.object({
   ext: z.string().optional(),
   mode: z.enum(['tree']).optional(),
   branch: z.string().optional(),
+  file: z.string().optional(),
 });
 
 const ToolInputSchema = ToolSchema.shape.inputSchema;
@@ -50,9 +51,11 @@ Query Parameters:
 - ext: Filter files by extensions (comma-separated)
   Example: ?ext=ts,tsx,js
 - mode: Display mode
-  Example: ?mode=tree (Shows directory structure only)
+  Example: ?mode=tree (Shows directory structure and README files only)
 - branch: Specify the branch to fetch from (optional)
   Example: ?branch=feature/new-feature
+- file: Specify a single file to retrieve (optional)
+  Example: ?file=src/components/Button.tsx
 
 Examples:
 1. For GitHub tree URLs with branch:
@@ -63,6 +66,14 @@ Examples:
   url: https://github.com/modelcontextprotocol/servers
   dir: src/fetch
   branch: develop
+
+3. For a single file:
+  url: https://github.com/username/repository
+  file: src/components/Button.tsx
+
+4. For directory structure with README files only:
+  url: https://github.com/username/repository
+  mode: tree
 
 The tool will correctly parse the repository structure and fetch the files from the specified branch.
 `,
@@ -97,6 +108,7 @@ server.setRequestHandler(
               if (params.ext) url.searchParams.set('ext', params.ext);
               if (params.mode) url.searchParams.set('mode', params.mode);
               if (params.branch) url.searchParams.set('branch', params.branch);
+              if (params.file) url.searchParams.set('file', params.file);
               return url.toString();
             };
 
