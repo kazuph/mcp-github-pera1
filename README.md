@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/kazuph-mcp-github-pera1-badge.png)](https://mseep.ai/app/kazuph-mcp-github-pera1)
+
 # GitHub MCP Server for Pera1
 
 A Model Context Protocol server that connects GitHub code to Claude.ai. This server utilizes the Pera1 service to extract code from GitHub repositories and provide better context to Claude.
