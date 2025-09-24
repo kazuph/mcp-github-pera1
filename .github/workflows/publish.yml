@@ -33,23 +33,21 @@ jobs:
           cache: pnpm
           registry-url: 'https://registry.npmjs.org'
 
-      - name: Validate required secrets (NPM_TOKEN)
-        if: ${{ secrets.NPM_TOKEN == '' }}
-        run: |
-          echo "Missing NPM_TOKEN secret.\nSet it in: Settings > Secrets and variables > Actions > New repository secret (name: NPM_TOKEN)." >&2
-          exit 1
-
       - name: Preflight npm authentication
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set -euo pipefail
+          if [ -z "${NODE_AUTH_TOKEN:-}" ]; then
+            echo "Missing NPM_TOKEN secret.\nSet it in: Settings > Secrets and variables > Actions as NPM_TOKEN (Automation token with publish)." >&2
+            exit 1
+          fi
           # Write token for whoami preflight without printing it
           printf "//registry.npmjs.org/:_authToken=%s\n" "$NODE_AUTH_TOKEN" > ~/.npmrc
-          npm whoami --registry=https://registry.npmjs.org >/dev/null 2>&1 || {
-            echo "NPM_TOKEN is invalid or lacks access. Please reissue an Automation token with publish rights." >&2
+          if ! npm whoami --registry=https://registry.npmjs.org >/dev/null 2>&1; then
+            echo "NPM_TOKEN is invalid or lacks access. Reissue an Automation token with publish rights." >&2
             exit 1
-          }
+          fi
           echo "npm auth preflight OK"
 
       - name: Install dependencies
