@@ -102,7 +102,7 @@ server.setRequestHandler(
           try {
             const buildUrl = (params: z.infer<typeof GithubUrlSchema>) => {
               const url = new URL(
-                `https://pera1.kazuph.workers.dev/${params.url}`
+                `https://pera1.kazu-san.workers.dev/${params.url}`
               );
               if (params.dir) url.searchParams.set('dir', params.dir);
               if (params.ext) url.searchParams.set('ext', params.ext);
