@@ -10,17 +10,9 @@ import {
 import type { CallToolRequest } from '@modelcontextprotocol/sdk/types.js';
 import { z } from 'zod';
 import { zodToJsonSchema } from 'zod-to-json-schema';
+import { GithubUrlSchema, buildWorkerUrl } from './githubTool.js';
 
-// Schema definitions
-const GithubUrlSchema = z.object({
-  url: z.string().url(),
-  dir: z.string().optional(),
-  ext: z.string().optional(),
-  mode: z.enum(['tree']).optional(),
-  branch: z.string().optional(),
-  file: z.string().optional(),
-});
-
+// Schema definitions reused from githubTool.ts
 const ToolInputSchema = ToolSchema.shape.inputSchema;
 type ToolInput = z.infer<typeof ToolInputSchema>;
 
@@ -100,19 +92,7 @@ server.setRequestHandler(
           }
 
           try {
-            const buildUrl = (params: z.infer<typeof GithubUrlSchema>) => {
-              const url = new URL(
-                `https://pera1.kazu-san.workers.dev/${params.url}`
-              );
-              if (params.dir) url.searchParams.set('dir', params.dir);
-              if (params.ext) url.searchParams.set('ext', params.ext);
-              if (params.mode) url.searchParams.set('mode', params.mode);
-              if (params.branch) url.searchParams.set('branch', params.branch);
-              if (params.file) url.searchParams.set('file', params.file);
-              return url.toString();
-            };
-
-            const response = await fetch(buildUrl(parsed.data));
+            const response = await fetch(buildWorkerUrl(parsed.data));
 
             if (!response.ok) {
               throw new Error(`HTTP error! status: ${response.status}`);
