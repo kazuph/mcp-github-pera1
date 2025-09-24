@@ -30,6 +30,14 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm audit
+      - name: Configure npm authentication
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cat <<EOF > ~/.npmrc
+          //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
+          //registry.npmjs.org/:always-auth=true
+          EOF
       - name: Publish package
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
