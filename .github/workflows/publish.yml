@@ -5,6 +5,15 @@ on:
     branches:
       - main
 
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: publish-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -21,17 +30,10 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm audit
-      - name: Configure npm authentication
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
-          npm config set //registry.npmjs.org/:always-auth true
-          pnpm config set //registry.npmjs.org/:_authToken ${NODE_AUTH_TOKEN} --global
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish package
-        run: pnpm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish --access public
       - name: Determine package version
         id: package_version
         run: |
