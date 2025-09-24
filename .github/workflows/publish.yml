@@ -17,11 +17,15 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+          registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
       - run: pnpm test
       - run: pnpm audit
       - name: Configure npm authentication
-        run: echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > ~/.npmrc
+        run: |
+          npm config set //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}
+          npm config set //registry.npmjs.org/:always-auth true
+          pnpm config set //registry.npmjs.org/:_authToken ${NODE_AUTH_TOKEN} --global
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Publish package
